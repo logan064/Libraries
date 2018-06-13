@@ -1,4 +1,4 @@
-# libraries
+# Libraries
 Contains wrapper classes for integers, real numbers, and strings.
 -------------------------------------------------------------------------------------------------------
 BST class is robust with helper methods that are used to implement self balancing trees.
