@@ -1,5 +1,8 @@
+#OBJS holds object files
 OBJS = integer.o real.o string.o da.o cda.o stack.o queue.o bst.o driver.o
+#OOPTS has flags to create object files
 OOPTS = -Wall -Wextra -g -c
+#LOPTS has flags to create executable
 LOPTS = -Wall -Wextra -g
 
 all:	driver
