@@ -5,7 +5,9 @@
 
 typedef struct da DA;
 
-extern DA *newDA(void (*d)(FILE *,void *)); //creates structure and uses function pointer to display value
+//edit newDA for free function pointer
+
+extern DA *newDA(void (*d)(FILE *,void *),void (*f)(void *)); //creates structure and uses function pointer to display value
 extern void insertDA(DA *items,void *value);  //adds the value to the back of the array
 extern void *removeDA(DA *items); //removes the last item from the array
 extern void unionDA(DA *recipient,DA *donor); //appends the second array to the first
@@ -15,5 +17,6 @@ extern void **extractDA(DA *items); //returns the underlying structure
 extern int sizeDA(DA *items); //returns the number of items stored in array
 extern void visualizeDA(FILE *fp,DA *items);  //print array enclosed in [] and prints open slots
 extern void displayDA(FILE *fp,DA *items);  //print the items stored in the array
+extern void freeDA(DA *items);	//frees the objects stored and DA object
 
 #endif

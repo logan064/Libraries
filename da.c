@@ -9,12 +9,13 @@ struct da{
 	int factor;	//factor to grow array by
 	double minRatio;	//if ratio is below this then grow array
 	void (*display)(FILE *,void *);	//used to display the generic value stored
+	void (*free)(void *);	//used to free the generic values stored
 };
 
 static void growDA(DA *items);	//grows array by the factor
 static void shrinkDA(DA *items);	//shrinks the array down to the actual size
 
-DA *newDA(void (*d)(FILE *,void *)){
+DA *newDA(void (*d)(FILE *,void *),void (*f)(void *)){
 	DA *items = malloc(sizeof(DA));
     if(items == 0){
         fprintf(stderr,"out of memory");
@@ -26,6 +27,7 @@ DA *newDA(void (*d)(FILE *,void *)){
     items->factor = 2;	//doubling array when grown
     items->minRatio = 0.25;
     items->display = d;
+	items->free = f;
     return items;
 }
 
@@ -63,16 +65,15 @@ void *removeDA(DA *items){
 
 void unionDA(DA *recipient,DA *donor){
 	int x;
-	if(donor->size == 0){	//nothing to append to recipient
+	if(sizeDA(donor) == 0){	//nothing to append to recipient
 		return;
 	}
-	for(x = 0;x < donor->size;x++){	//add each element from donor to recipient in order
-		insertDA(recipient,donor->array[x]);
+	for(x = 0;x < sizeDA(donor);x++){	//add each element from donor to recipient in order
+		insertDA(recipient,getDA(donor,x));
 	}
-	donor->size = 0;	//make donor empty dynamic array
-	donor->capacity = 1;
-	donor->array = 0;
-	donor->array = malloc(sizeof(void *));
+	while(sizeDA(donor) != 0){
+		removeDA(donor);
+	}
 }
 
 void *getDA(DA *items,int index){
@@ -129,4 +130,12 @@ void displayDA(FILE *fp,DA *items){
 			fprintf(fp,",");
 	}
 	fprintf(fp,"]");
+}
+
+void freeDA(DA *items){
+	while(sizeDA(items) != 0){
+		items->free(removeDA(items));
+	}
+	free(items->array);
+	free(items);
 }

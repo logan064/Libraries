@@ -10,7 +10,7 @@ extern int getINTEGER(INTEGER *); //returns the value stored in the structure
 extern int setINTEGER(INTEGER *,int); //sets the value stored in the structure parameter
 extern void displayINTEGER(FILE *,void *);  //displays the wrappped value to the FILE*
 extern int compareINTEGER(void *,void *); //returns the first value minus the second
-extern void freeINTEGER(INTEGER *); //frees the memory allocated by newINTEGER
+extern void freeINTEGER(void *); //frees the memory allocated by newINTEGER
 
 
 #endif

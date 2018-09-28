@@ -36,6 +36,8 @@ int compareSTRING(void *a,void *b){
   return strcmp(getSTRING(a),getSTRING(b));
 }
 
-void freeSTRING(STRING *x){
-  free(x);
+void freeSTRING(void *x){
+	STRING *temp = x;
+	free(temp->value);
+	free(temp);
 }

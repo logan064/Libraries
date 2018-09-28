@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
   //FILE *in = stdin;
   fprintf(out,"Testing the executable: %s\n",argv[0]);
 
-  //integer testing
+/*  //integer testing
   INTEGER *number1 = newINTEGER(1);
   INTEGER *number2 = newINTEGER(2);
   displayINTEGER(out,number1);
@@ -26,6 +26,8 @@ int main(int argc, char const *argv[]) {
   displayINTEGER(out,number1);
   fprintf(out, "%d\n",compareINTEGER(number1,number2));
   //should print 131
+  freeINTEGER(number1);
+  freeINTEGER(number2);
 
   //real testing
   REAL *real1 = newREAL(1.0);
@@ -35,37 +37,44 @@ int main(int argc, char const *argv[]) {
   displayREAL(out,real1);
   fprintf(out, "%d\n",compareREAL(real1,real2));
   //should print 1.0000003.0000001
+  freeREAL(real1);
+  freeREAL(real2);
 
   //string testing
   STRING *str1 = newSTRING("ONE");
-  STRING *str2 = newSTRING("TWN");
+  STRING *str2 = newSTRING("TWO");
   displaySTRING(out,str1);
-  setSTRING(str1,"TWO");
-  displaySTRING(out,str1);
-  fprintf(out, "%d\n",compareSTRING(str1,str2));
+  displaySTRING(out,str2);
+  printf("\n");
+  freeSTRING(str1);
+  freeSTRING(str2);
   //should print ONETWO1
+*/
 
   //dynamic array testing
-  DA *list = newDA(displayINTEGER);
+  DA *list = newDA(displayINTEGER,freeINTEGER);
   insertDA(list,newINTEGER(1));
   insertDA(list,newINTEGER(2));
   insertDA(list,newINTEGER(3));
-  displayDA(out,list);
-  visualizeDA(out,list);
-  sizeDA(list);
-  DA *list1 = newDA(displayINTEGER);
+  DA *list1 = newDA(displayINTEGER,freeINTEGER);
   insertDA(list1,newINTEGER(4));
   insertDA(list1,newINTEGER(5));
   insertDA(list1,newINTEGER(6));
   insertDA(list1,newINTEGER(7));
-  removeDA(list1);
+  displayDA(stdout,list);
+  fprintf(out,"\n");
+  displayDA(stdout,list1);
+  fprintf(out,"\n");
   unionDA(list,list1);
-  setDA(list,sizeDA(list)-1,newINTEGER(100));
-  visualizeDA(out,list);
+  displayDA(stdout,list);
+  fprintf(out,"\n");
+  displayDA(stdout,list1);
   fprintf(out,"\n");
   //should print [1,2,3][1,2,3][1][1,2,3,4,5,100][2]
+  freeDA(list);
+  freeDA(list1);
 
-  //circular dynamic array testing
+/*  //circular dynamic array testing
   CDA *ring = newCDA(displaySTRING);
   insertCDAback(ring,newSTRING("b"));
   insertCDAback(ring,newSTRING("c"));
@@ -80,15 +89,16 @@ int main(int argc, char const *argv[]) {
   visualizeCDA(out,ring);
   fprintf(out,"\n");
   //should print (a,b,c,d,e,z)(a,b,c,d,e,z)(2)
-
+*/
   //stack testing
-  STACK *s = newSTACK(displayINTEGER);
+  STACK *s = newSTACK(displayINTEGER,freeINTEGER);
   push(s,newINTEGER(1));
   push(s,newINTEGER(2));
   displaySTACK(out,s);
   fprintf(out,"\n");
   //should print |2,1|
-
+  freeSTACK(s);
+/*
   //queue Testing
   QUEUE *q = newQUEUE(displayREAL);
   enqueue(q,newREAL(1.0));
@@ -112,6 +122,9 @@ int main(int argc, char const *argv[]) {
   displayBST(out,t);
   deleteBST(t,newINTEGER(10));
   displayBST(out,t);
+
+*/
+
   /*should print
   0: 5(5)-
   1: 1(5)-l 9(5)-r

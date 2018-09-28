@@ -7,16 +7,18 @@
 struct stack{
 	DA *store;
 	void (*display)(FILE *,void *);
+	void (*free)(void *);
 };
 
-STACK *newSTACK(void (*d)(FILE *,void *)){
+STACK *newSTACK(void (*d)(FILE *,void *),void (*f)(void *)){
 	STACK *items = malloc(sizeof(STACK));
 	if(items == 0){
         fprintf(stderr,"out of memory");
         exit(-1);
     }
     items->display = d;
-    items->store = newDA(d);	//creates dynamic array to implement stack operations
+	items->free = f;
+    items->store = newDA(d,f);	//creates dynamic array to implement stack operations
     return items;
 }
 
@@ -49,4 +51,9 @@ void displaySTACK(FILE *fp,STACK *items){
 
 void visualizeSTACK(FILE *fp,STACK *items){
 	displayDA(fp,items->store);
+}
+
+void freeSTACK(STACK *items){
+	freeDA(items->store);
+	free(items);
 }
