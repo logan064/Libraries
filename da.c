@@ -27,7 +27,7 @@ DA *newDA(void (*d)(FILE *,void *),void (*f)(void *)){
     items->factor = 2;	//doubling array when grown
     items->minRatio = 0.25;
     items->display = d;
-	items->free = f;
+    items->free = f;
     return items;
 }
 

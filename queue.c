@@ -7,17 +7,19 @@
 struct queue{
 	CDA *store;
 	void (*display)(FILE *,void *);
+	void (*free)(void *);
 };
 
 
-QUEUE *newQUEUE(void (*d)(FILE *,void *)){
+QUEUE *newQUEUE(void (*d)(FILE *,void *),void (*f)(void *)){
 	QUEUE *items = malloc(sizeof(QUEUE));
 	if(items == 0){
         fprintf(stderr,"out of memory");
         exit(-1);
     }
     items->display = d;
-    items->store = newCDA(d);	//creates circular dynamic array to implement queue operations
+    items->free = f;
+    items->store = newCDA(d,f);	//creates circular dynamic array to implement queue operations
     return items;
 }
 
@@ -50,4 +52,9 @@ void displayQUEUE(FILE *fp,QUEUE *items){
 
 void visualizeQUEUE(FILE *fp,QUEUE *items){
 	displayCDA(fp,items->store);
+}
+
+void freeQUEUE(QUEUE *items){
+	freeCDA(items->store);
+	free(items);
 }

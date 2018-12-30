@@ -7,13 +7,14 @@ struct cda{
 	int size,capacity,factor,front,back;	//factor is used to grow and shrink array //front and back keep track of the index's
 	double minRatio;	//minimum ratio before need to shrink array
 	void (*display)(FILE *,void *);	//used to display the generic value stored
+	void (*free)(void *);	//used to free the generic values stored
 };
 
 static void growCDA(CDA *items);	//grows array by the factor
 static void shrinkCDA(CDA *items);	//shrinks array by the factor
 static int correctIndex(int index,CDA *items); //returns the index used in the underlying array
 
-CDA *newCDA(void (*d)(FILE *,void *)){
+CDA *newCDA(void (*d)(FILE *,void *),void (*f)(void *)){
 	CDA *items = malloc(sizeof(CDA));
     if(items == 0){
         fprintf(stderr,"out of memory");
@@ -27,6 +28,7 @@ CDA *newCDA(void (*d)(FILE *,void *)){
     items->front = 0;
     items->back = 0;
     items->display = d;
+    items->free = f;
     return items;
 }
 
@@ -145,6 +147,15 @@ void displayCDA(FILE *fp,CDA *items){
 	fprintf(fp,")");
 }
 
+void freeCDA(CDA *items){
+	while(sizeCDA(items) != 0)
+		items->free(removeCDAback(items));
+	free(items->array);
+	free(items);	
+}
+
+///////////////////////////////////////////////////////////////////
+//	PRIVATE FUNCTIONS	///////////////////////////////////
 void growCDA(CDA *items){
 	void **temp;
 	int x;
@@ -183,3 +194,6 @@ void shrinkCDA(CDA *items){
 int correctIndex(int index,CDA *items){
 	return (index + items->capacity) % items->capacity;
 }
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////

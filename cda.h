@@ -5,7 +5,7 @@
 
 typedef struct cda CDA;
 
-extern CDA *newCDA(void (*d)(FILE *,void *)); //creates structure and uses function pointer to display value
+extern CDA *newCDA(void (*d)(FILE *,void *),void (*f)(void *)); //creates structure and uses function pointers to display and free generic values 
 extern void insertCDAfront(CDA *items,void *value); //inserts the item at the front of the array
 extern void insertCDAback(CDA *items,void *value);  //inserts the item at the back of the array
 extern void *removeCDAfront(CDA *items);  //removes the item at the front of the array
@@ -17,5 +17,6 @@ extern void **extractCDA(CDA *items); //returns the underlying structure
 extern int sizeCDA(CDA *items); //returns the number of items stored in array
 extern void visualizeCDA(FILE *,CDA *items);  //print array enclosed in [] and prints open slots
 extern void displayCDA(FILE *,CDA *items);  //print the items stored in the array
+extern void freeCDA(CDA *items);  //frees the objects stored and CDA object
 
 #endif

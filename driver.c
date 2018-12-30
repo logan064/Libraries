@@ -18,7 +18,8 @@ int main(int argc, char const *argv[]) {
   //FILE *in = stdin;
   fprintf(out,"Testing the executable: %s\n",argv[0]);
 
-/*  //integer testing
+/*
+  //integer testing
   INTEGER *number1 = newINTEGER(1);
   INTEGER *number2 = newINTEGER(2);
   displayINTEGER(out,number1);
@@ -49,7 +50,7 @@ int main(int argc, char const *argv[]) {
   freeSTRING(str1);
   freeSTRING(str2);
   //should print ONETWO1
-*/
+
 
   //dynamic array testing
   DA *list = newDA(displayINTEGER,freeINTEGER);
@@ -74,12 +75,12 @@ int main(int argc, char const *argv[]) {
   freeDA(list);
   freeDA(list1);
 
-/*  //circular dynamic array testing
-  CDA *ring = newCDA(displaySTRING);
+  //circular dynamic array testing
+  CDA *ring = newCDA(displaySTRING,freeSTRING);
   insertCDAback(ring,newSTRING("b"));
   insertCDAback(ring,newSTRING("c"));
   insertCDAfront(ring,newSTRING("a"));
-  CDA *ring1 = newCDA(displaySTRING);
+  CDA *ring1 = newCDA(displaySTRING,freeSTRING);
   insertCDAback(ring1,newSTRING("e"));
   insertCDAback(ring1,newSTRING("f"));
   insertCDAfront(ring1,newSTRING("d"));
@@ -88,8 +89,10 @@ int main(int argc, char const *argv[]) {
   displayCDA(out,ring);
   visualizeCDA(out,ring);
   fprintf(out,"\n");
+  freeCDA(ring);
+  freeCDA(ring1);
   //should print (a,b,c,d,e,z)(a,b,c,d,e,z)(2)
-*/
+
   //stack testing
   STACK *s = newSTACK(displayINTEGER,freeINTEGER);
   push(s,newINTEGER(1));
@@ -98,9 +101,9 @@ int main(int argc, char const *argv[]) {
   fprintf(out,"\n");
   //should print |2,1|
   freeSTACK(s);
-/*
+
   //queue Testing
-  QUEUE *q = newQUEUE(displayREAL);
+  QUEUE *q = newQUEUE(displayREAL,freeREAL);
   enqueue(q,newREAL(1.0));
   enqueue(q,newREAL(1.5));
   enqueue(q,newREAL(2.0));
@@ -108,10 +111,14 @@ int main(int argc, char const *argv[]) {
   dequeue(q);
   displayQUEUE(out,q);
   fprintf(out,"\n");
+  freeQUEUE(q);
   //should print <1.000000,1.500000,2.000000>
+*/
 
+
+  //WRITE FREE METHOD
   //bst Testing
-  BST *t = newBST(displayINTEGER,compareINTEGER,0);
+  BST *t = newBST(displayINTEGER,freeINTEGER,compareINTEGER,0);
   insertBST(t,newINTEGER(5));
   insertBST(t,newINTEGER(1));
   insertBST(t,newINTEGER(9));
@@ -120,10 +127,10 @@ int main(int argc, char const *argv[]) {
   insertBST(t,newINTEGER(0));
   insertBST(t,newINTEGER(10));
   displayBST(out,t);
-  deleteBST(t,newINTEGER(10));
+  deleteBST(t,newINTEGER(10));  //prob causes leak may change return
   displayBST(out,t);
+  freeBST(t);
 
-*/
 
   /*should print
   0: 5(5)-
